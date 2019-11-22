@@ -9,14 +9,15 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import com.timesheetProject.beans.User;
 
 public class UserDAO {
 
 	public Connection getConnection() {
 		try {
-			Class.forName("some.name.Driver");
-			Class.forName("com.mysql.cj.jdbc.Driver");  
+			
+			Class.forName("com.mysql.cj.jdbc.Driver"); 
 			Connection conn = DriverManager
 					.getConnection("jdbc:mysql://localhost:3306/chinook", "root", "        ");
 			return conn;
@@ -28,9 +29,11 @@ public class UserDAO {
 	public User save(User user) {
 		Connection conn = getConnection();
 		try {
-			PreparedStatement stmt = conn.prepareStatement("INSERT INTO ARTIST(NAME) VALUES(?)",
+			PreparedStatement stmt = conn.prepareStatement("INSERT INTO USER(NAME, EMAIL, MANAGERSTATUS) VALUES(?, ?, ?)",
 					new String[] { "userId" });
 			stmt.setString(1, user.getName());
+			stmt.setString(2, user.getEmail());
+			stmt.setBoolean(3, user.getManagerStatus());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			while (keys.next()) {
@@ -52,12 +55,13 @@ public class UserDAO {
 	public User findByUserId(int id) {
 		Connection conn = getConnection();
 		User user = null;
+		
 		try {
-			PreparedStatement stmt = conn.prepareStatement("select userId, name from user where userId=?");
+			PreparedStatement stmt = conn.prepareStatement("select userId, * from user where userId=?");
 			stmt.setInt(1, id);
 			ResultSet results = stmt.executeQuery();
 			results.next();
-			user = new User(results.getInt(1), results.getString(2));
+			user = new User(results.getInt(1), results.getString(2), results.getString(3), results.getBoolean(4));
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -70,13 +74,14 @@ public class UserDAO {
 		return user;
 	}
 
+	// find all users
 	public List<User> findAll() {
 		Connection conn = getConnection();
 		LinkedList<User> results = new LinkedList<>();
 		try {
 			ResultSet rs = conn.prepareStatement("select * from user").executeQuery();
 			while (rs.next()) {
-				User a = new User(rs.getInt("userId"), rs.getString("name"));
+				User a = new User(rs.getInt("userId"), rs.getString("name"), rs.getString("email"), rs.getBoolean("managerStatus"));
 				results.add(a);
 			}
 		} catch (SQLException e) {
@@ -99,7 +104,7 @@ public class UserDAO {
 			stmt.setString(1, search + "%");
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				User a = new User(rs.getInt("userId"), rs.getString("name"));
+				User a = new User(rs.getInt("userId"), rs.getString("name"), rs.getString("email"), rs.getBoolean("managerStatus"));
 				results.add(a);
 			}
 		} catch (SQLException e) {
@@ -141,7 +146,7 @@ public class UserDAO {
 	}
 
 	public void delete(int id) {
-		String sql = "DELETE FROM ARTIST WHERE ARTISTID = ?";
+		String sql = "DELETE FROM USER WHERE USERID = ?";
 		Connection conn = getConnection();
 		try {
 			conn.setAutoCommit(false);

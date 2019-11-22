@@ -14,6 +14,8 @@ public class User {
 		super();
 		this.userId = userId;
 		this.name = name;
+		this.email = email;
+		this.managerStatus = managerStatus;
 	}
 	public int getUserId() {
 		return userId;
