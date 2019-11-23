@@ -9,7 +9,8 @@ public class Timesheet {
 	private int thurHours;
 	private int friHours;
 	private String weekEndingDate;
-	private boolean status;
+	private boolean submitted;
+
 	
 	public Timesheet() {
 		super();
@@ -17,7 +18,7 @@ public class Timesheet {
 	}
 
 	public Timesheet(int timesheetId, int monHours, int tuesHours, int wedHours, int thurHours, int friHours,
-			String weekEndingDate, boolean status) {
+			String weekEndingDate, boolean submitted) {
 		super();
 		this.timesheetId = timesheetId;
 		this.monHours = monHours;
@@ -26,7 +27,7 @@ public class Timesheet {
 		this.thurHours = thurHours;
 		this.friHours = friHours;
 		this.weekEndingDate = weekEndingDate;
-		this.status = status;
+		this.submitted = submitted;
 	}
 
 	public int getTimesheetId() {
@@ -86,11 +87,11 @@ public class Timesheet {
 	}
 
 	public boolean isStatus() {
-		return status;
+		return submitted;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setStatus(boolean submitted) {
+		this.submitted = submitted;
 	}
 
 	@Override
@@ -99,7 +100,7 @@ public class Timesheet {
 		int result = 1;
 		result = prime * result + friHours;
 		result = prime * result + monHours;
-		result = prime * result + (status ? 1231 : 1237);
+		result = prime * result + (submitted ? 1231 : 1237);
 		result = prime * result + thurHours;
 		result = prime * result + timesheetId;
 		result = prime * result + tuesHours;
@@ -121,7 +122,7 @@ public class Timesheet {
 			return false;
 		if (monHours != other.monHours)
 			return false;
-		if (status != other.status)
+		if (submitted != other.submitted)
 			return false;
 		if (thurHours != other.thurHours)
 			return false;
@@ -143,7 +144,7 @@ public class Timesheet {
 	public String toString() {
 		return "Timesheet [timesheetId=" + timesheetId + ", monHours=" + monHours + ", tuesHours=" + tuesHours
 				+ ", wedHours=" + wedHours + ", thurHours=" + thurHours + ", friHours=" + friHours + ", weekEndingDate="
-				+ weekEndingDate + ", status=" + status + "]";
+				+ weekEndingDate + ", submitted=" + submitted + "]";
 	}
 	
 
