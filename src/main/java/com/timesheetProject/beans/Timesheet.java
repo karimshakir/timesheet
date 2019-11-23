@@ -3,15 +3,30 @@ package com.timesheetProject.beans;
 public class Timesheet {
 	
 	private int timesheetId;
-	private int mon_hours;
-	private int tues_hours;
-	private int wed_hours;
-	private int thur_hours;
-	private int fri_hours;
-	private String week_ending_date;
+	private int monHours;
+	private int tuesHours;
+	private int wedHours;
+	private int thurHours;
+	private int friHours;
+	private String weekEndingDate;
+	private boolean status;
 	
 	public Timesheet() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Timesheet(int timesheetId, int monHours, int tuesHours, int wedHours, int thurHours, int friHours,
+			String weekEndingDate, boolean status) {
+		super();
+		this.timesheetId = timesheetId;
+		this.monHours = monHours;
+		this.tuesHours = tuesHours;
+		this.wedHours = wedHours;
+		this.thurHours = thurHours;
+		this.friHours = friHours;
+		this.weekEndingDate = weekEndingDate;
+		this.status = status;
 	}
 
 	public int getTimesheetId() {
@@ -21,87 +36,116 @@ public class Timesheet {
 	public void setTimesheetId(int timesheetId) {
 		this.timesheetId = timesheetId;
 	}
-//NOTE: USE ILLEGAL ARGUMENT EXCEPTION FOR HOURS EXCEEDING 8
-	public int getMon_hours() {
-		return mon_hours;
+
+	public int getMonHours() {
+		return monHours;
 	}
 
-	public void setMon_hours(int mon_hours) {
-		this.mon_hours = mon_hours;
+	public void setMonHours(int monHours) {
+		this.monHours = monHours;
 	}
 
-	public int getTues_hours() {
-		return tues_hours;
+	public int getTuesHours() {
+		return tuesHours;
 	}
 
-	public void setTues_hours(int tues_hours) {
-		this.tues_hours = tues_hours;
+	public void setTuesHours(int tuesHours) {
+		this.tuesHours = tuesHours;
 	}
 
-	public int getWed_hours() {
-		return wed_hours;
+	public int getWedHours() {
+		return wedHours;
 	}
 
-	public void setWed_hours(int wed_hours) {
-		this.wed_hours = wed_hours;
+	public void setWedHours(int wedHours) {
+		this.wedHours = wedHours;
 	}
 
-	public int getThur_hours() {
-		return thur_hours;
+	public int getThurHours() {
+		return thurHours;
 	}
 
-	public void setThur_hours(int thur_hours) {
-		this.thur_hours = thur_hours;
+	public void setThurHours(int thurHours) {
+		this.thurHours = thurHours;
 	}
 
-	public int getFri_hours() {
-		return fri_hours;
+	public int getFriHours() {
+		return friHours;
 	}
 
-	public void setFri_hours(int fri_hours) {
-		this.fri_hours = fri_hours;
+	public void setFriHours(int friHours) {
+		this.friHours = friHours;
 	}
 
-	public String getWeek_ending_date() {
-		return week_ending_date;
+	public String getWeekEndingDate() {
+		return weekEndingDate;
 	}
 
-	public void setWeek_ending_date(String week_ending_date) {
-		this.week_ending_date = week_ending_date;
+	public void setWeekEndingDate(String weekEndingDate) {
+		this.weekEndingDate = weekEndingDate;
 	}
 
+	public boolean isStatus() {
+		return status;
+	}
 
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + friHours;
+		result = prime * result + monHours;
+		result = prime * result + (status ? 1231 : 1237);
+		result = prime * result + thurHours;
+		result = prime * result + timesheetId;
+		result = prime * result + tuesHours;
+		result = prime * result + wedHours;
+		result = prime * result + ((weekEndingDate == null) ? 0 : weekEndingDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Timesheet other = (Timesheet) obj;
+		if (friHours != other.friHours)
+			return false;
+		if (monHours != other.monHours)
+			return false;
+		if (status != other.status)
+			return false;
+		if (thurHours != other.thurHours)
+			return false;
+		if (timesheetId != other.timesheetId)
+			return false;
+		if (tuesHours != other.tuesHours)
+			return false;
+		if (wedHours != other.wedHours)
+			return false;
+		if (weekEndingDate == null) {
+			if (other.weekEndingDate != null)
+				return false;
+		} else if (!weekEndingDate.equals(other.weekEndingDate))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Timesheet [timesheetId=" + timesheetId + ", monHours=" + monHours + ", tuesHours=" + tuesHours
+				+ ", wedHours=" + wedHours + ", thurHours=" + thurHours + ", friHours=" + friHours + ", weekEndingDate="
+				+ weekEndingDate + ", status=" + status + "]";
+	}
 	
-	
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		result = prime * result + timesheetId;
-//		result = prime * result + ((week_ending_date == null) ? 0 : week_ending_date.hashCode());
-//		return result;
-//	}
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Timesheet other = (Timesheet) obj;
-//		if (userId != other.timesheetId)
-//			return false;
-//		if (name == null) {
-//			if (other.name != null)
-//				return false;
-//		} else if (!name.equals(other.name))
-//			return false;
-//		return true;
-//	}
-//	@Override
-//	public String toString() {
-//		return "Timesheet [timesheetId=" + timesheetId + ", name=" + name + "]";
-//	}
+
 
 }
