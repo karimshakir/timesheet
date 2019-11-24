@@ -15,8 +15,10 @@ public class UserDAO {
 	
 	public static void main(String[] args) {
 		User user = new User(4, "user4", "user4@gmail.com", true);
-		UserDAO userdoa = new UserDAO();	
-//		userdoa.save(user);
+		UserDAO userdoa = new UserDAO();
+//		[ testing userdoa save method ]
+		userdoa.save(user);
+//		[ testing userdoa findByUserId method ]
 //		System.out.println(userdoa.findByUserId(1).getEmail());
 		System.out.println(userdoa.findAll());	
 	}
@@ -37,7 +39,8 @@ public class UserDAO {
 	public User save(User user) {
 		Connection conn = getConnection();
 		try {
-			PreparedStatement stmt = conn.prepareStatement("INSERT INTO USER(NAME, EMAIL, MANAGER_STATUS) VALUES(?, ?, ?)",
+			PreparedStatement stmt = conn.prepareStatement("INSERT INTO USER(NAME,"
+					+ " EMAIL, MANAGER_STATUS) VALUES(?, ?, ?)",
 					new String[] { "user_id" }); //key
 			stmt.setString(1, user.getName()); //first param ref the '?' position of prepareStatement.Actual value matters.
 			stmt.setString(2, user.getEmail());

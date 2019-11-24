@@ -1,5 +1,6 @@
 package com.timesheetProject.data;
 
+import com.timesheetProject.beans.Timesheet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,15 +10,26 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import com.timesheetProject.beans.*;
 
 public class TimesheetDAO {
+	
+	public static void main(String[] args) {
+		Timesheet newtimesheet = new Timesheet(7,2,1,2,3,4,5,"11/20/2019",false, true);
+		TimesheetDAO dao = new TimesheetDAO();
+		
+//		dao.delete(4);
+		
+		System.out.println(dao.save(newtimesheet)); 
+	}
 
 	public Connection getConnection() {
+		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://my-sql.comtwymwozca.us-east-2.rds.amazonaws.com:3306/chinook", "admin", "adminadmin");
+			
+			Class.forName("com.mysql.cj.jdbc.Driver"); //need this when using MavenTomcat
+			Connection conn = DriverManager
+					.getConnection("jdbc:mysql://localhost:3306/TimesheetProject", "root", "        ");
 			return conn;
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new RuntimeException(e);
@@ -27,9 +39,20 @@ public class TimesheetDAO {
 	public Timesheet save(Timesheet timesheet) {
 		Connection conn = getConnection();
 		try {
-			PreparedStatement stmt = conn.prepareStatement("INSERT INTO ARTIST(NAME) VALUES(?)",
-					new String[] { "timesheetId" });
-			stmt.setString(1, timesheet.getName());
+			
+			PreparedStatement stmt = conn.prepareStatement("insert into timesheet(user_id,"
+					+ " mon_hours, tue_hours, wed_hours, thur_hours, fri_hours,"
+					+ " week_ending_date, submitted, approved) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					new String[] { "timesheet_id" }); //key
+			stmt.setInt(1, timesheet.getUserId());
+			stmt.setInt(2, timesheet.getMonHours());
+			stmt.setInt(3, timesheet.getTueHours());
+			stmt.setInt(4, timesheet.getWedHours());
+			stmt.setInt(5, timesheet.getThurHours());
+			stmt.setInt(6, timesheet.getFriHours());
+			stmt.setString(7, timesheet.getWeekEndingDate());
+			stmt.setBoolean(8, timesheet.isSubmitted());
+			stmt.setBoolean(9, timesheet.isApproved());
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			while (keys.next()) {
@@ -52,13 +75,15 @@ public class TimesheetDAO {
 		Connection conn = getConnection();
 		Timesheet timesheet = null;
 		try {
-			PreparedStatement stmt = conn.prepareStatement("select * from timesheet where timesheetId=?");
+			PreparedStatement stmt = conn.
+					prepareStatement("select * from timesheet where timesheetId=?");
 			stmt.setInt(1, id);
 			ResultSet results = stmt.executeQuery();
 			results.next();
-			timesheet = new Timesheet(results.getInt(1),results.getInt(2),results.getInt(3),
-					results.getInt(4),results.getInt(5),results.getInt(6),results.getString(7),
-					results.getBoolean(8));
+			timesheet = new Timesheet(results.getInt(1),results.getInt(2),
+					results.getInt(3),results.getInt(4),results.getInt(5),
+					results.getInt(6),results.getInt(7), results.getString(8),
+					results.getBoolean(9),results.getBoolean(10));
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -78,32 +103,15 @@ public class TimesheetDAO {
 			ResultSet rs = conn.prepareStatement("select * from timesheet")
 					.executeQuery();
 			while (rs.next()) {
-				Timesheet a = new Timesheet(rs.getInt("timesheetId"), 
-						0, 0, 0, 0, 0, rs.getString("name"), false);
-				results.add(a);
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return results;
-	}
-
-	public Set<Timesheet> searchByName(String search) {
-		Connection conn = getConnection();
-		Set<Timesheet> results = new HashSet<>();
-		try {
-			PreparedStatement stmt = conn.prepareStatement("select * from timesheet where name LIKE ?");
-			stmt.setString(1, search + "%");
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				Timesheet a = new Timesheet(rs.getInt("timesheetId"), rs.getString("name"));
-				results.add(a);
+				Timesheet timesheet = new Timesheet
+						(rs.getInt("timesheet_id"),
+						rs.getInt("user_id"),rs.getInt("mon_hours"),
+						rs.getInt("tue_hours"),rs.getInt("wed_hours"),
+						rs.getInt("thur_hours"),rs.getInt("fri_hours"),
+						rs.getString("week_ending_date"),
+						rs.getBoolean("submitted"),
+						rs.getBoolean("approved"));
+				results.add(timesheet);
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -118,13 +126,29 @@ public class TimesheetDAO {
 	}
 
 	public void update(Timesheet timesheet) {
-		String sql = "update Timesheet set name = ? where timesheetId = ?";
+		String sql = "update Timesheet"
+				+	"set mon_hours = ?,"
+				+ 	"tue_hours = ?,"
+				+	"wed_hours = ?,"
+				+ 	"thurs_hours = ?,"
+				+ 	"fri_hours = ?,"
+				+ 	"week_ending_date = ?,"
+				+ 	"submitted = ?,"
+				+ 	"approved = ?,"
+				+	"where timesheet_id = ?";
+				
 		Connection conn = getConnection();
+		
 		try {
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(2, timesheet.getTimesheetId());
-			stmt.setString(1, timesheet.getName());
+			stmt.setInt(1, timesheet.getMonHours());
+			stmt.setInt(2, timesheet.getTueHours());
+			stmt.setInt(3, timesheet.getWedHours());
+			stmt.setInt(4, timesheet.getThurHours());
+			stmt.setInt(5, timesheet.getFriHours());
+			stmt.setString(6, timesheet.getWeekEndingDate());
+			stmt.setBoolean(7, timesheet.isSubmitted());
 			stmt.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {
@@ -144,7 +168,7 @@ public class TimesheetDAO {
 	}
 
 	public void delete(int id) {
-		String sql = "DELETE FROM ARTIST WHERE ARTISTID = ?";
+		String sql = "delete from timesheet where timesheet_id = ?";
 		Connection conn = getConnection();
 		try {
 			conn.setAutoCommit(false);
@@ -166,3 +190,5 @@ public class TimesheetDAO {
 				throw new RuntimeException(e);
 			}
 		}
+}
+	}
