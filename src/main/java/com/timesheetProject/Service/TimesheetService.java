@@ -2,7 +2,9 @@ package com.timesheetProject.Service;
 
 
 import java.util.List;
-import java.util.Set;
+
+import com.timesheetProject.beans.Timesheet;
+import com.timesheetProject.data.TimesheetDAO;
 
 
 public class TimesheetService {
@@ -19,10 +21,6 @@ public class TimesheetService {
 
 	public List<Timesheet> findAll() {
 		return timesheetDAO.findAll();
-	}
-
-	public Set<Timesheet> searchByName(String search) {
-		return timesheetDAO.searchByName(search);
 	}
 
 	public void update(Timesheet timesheet) {

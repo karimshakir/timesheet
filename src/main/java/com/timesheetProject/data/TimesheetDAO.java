@@ -13,29 +13,28 @@ import java.util.Set;
 import com.timesheetProject.beans.*;
 
 public class TimesheetDAO {
-	
+
 	public static void main(String[] args) {
 
-		Timesheet newtimesheet = new Timesheet(7,2,1,2,3,4,5,"11/20/2019",false, true);
+		Timesheet newtimesheet = new Timesheet(7, 2, 1, 2, 3, 4, 5, "11/20/2019", false, true);
 
 		TimesheetDAO dao = new TimesheetDAO();
-		
-//		dao.delete(4);
-		
 
-		System.out.println(dao.save(newtimesheet)); 
+//		dao.delete(4);
+
+		System.out.println(dao.save(newtimesheet));
 
 		dao.save(newtimesheet);
 
 	}
 
 	public Connection getConnection() {
-		
+
 		try {
-			
-			Class.forName("com.mysql.cj.jdbc.Driver"); //need this when using MavenTomcat
-			Connection conn = DriverManager
-					.getConnection("jdbc:mysql://localhost:3306/TimesheetProject", "root", "        ");
+
+			Class.forName("com.mysql.cj.jdbc.Driver"); // need this when using MavenTomcat
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/TimesheetProject", "root",
+					"        ");
 			return conn;
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new RuntimeException(e);
@@ -45,11 +44,11 @@ public class TimesheetDAO {
 	public Timesheet save(Timesheet timesheet) {
 		Connection conn = getConnection();
 		try {
-			
-			PreparedStatement stmt = conn.prepareStatement("insert into timesheet(user_id,"
-					+ " mon_hours, tue_hours, wed_hours, thur_hours, fri_hours,"
-					+ " week_ending_date, submitted, approved) values(?)",
-					new String[] { "timesheet_id" }); //key
+
+			PreparedStatement stmt = conn.prepareStatement(
+					"insert into timesheet(user_id," + " mon_hours, tue_hours, wed_hours, thur_hours, fri_hours,"
+							+ " week_ending_date, submitted, approved) values(?)",
+					new String[] { "timesheet_id" }); // key
 			stmt.setInt(1, timesheet.getUserId());
 			stmt.setInt(2, timesheet.getMonHours());
 			stmt.setInt(3, timesheet.getTueHours());
@@ -82,15 +81,13 @@ public class TimesheetDAO {
 		Connection conn = getConnection();
 		Timesheet timesheet = null;
 		try {
-			PreparedStatement stmt = conn.
-					prepareStatement("select * from timesheet where timesheetId=?");
+			PreparedStatement stmt = conn.prepareStatement("select * from timesheet where timesheetId=?");
 			stmt.setInt(1, id);
 			ResultSet results = stmt.executeQuery();
 			results.next();
-			timesheet = new Timesheet(results.getInt(1),results.getInt(2),
-					results.getInt(3),results.getInt(4),results.getInt(5),
-					results.getInt(6),results.getInt(7), results.getString(8),
-					results.getBoolean(9),results.getBoolean(10));
+			timesheet = new Timesheet(results.getInt(1), results.getInt(2), results.getInt(3), results.getInt(4),
+					results.getInt(5), results.getInt(6), results.getInt(7), results.getString(8),
+					results.getBoolean(9), results.getBoolean(10));
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -107,16 +104,11 @@ public class TimesheetDAO {
 		Connection conn = getConnection();
 		LinkedList<Timesheet> results = new LinkedList<>();
 		try {
-			ResultSet rs = conn.prepareStatement("select * from timesheet")
-					.executeQuery();
+			ResultSet rs = conn.prepareStatement("select * from timesheet").executeQuery();
 			while (rs.next()) {
-				Timesheet timesheet = new Timesheet
-						(rs.getInt("timesheet_id"),
-						rs.getInt("user_id"),rs.getInt("mon_hours"),
-						rs.getInt("tue_hours"),rs.getInt("wed_hours"),
-						rs.getInt("thur_hours"),rs.getInt("fri_hours"),
-						rs.getString("week_ending_date"),
-						rs.getBoolean("submitted"),
+				Timesheet timesheet = new Timesheet(rs.getInt("timesheet_id"), rs.getInt("user_id"),
+						rs.getInt("mon_hours"), rs.getInt("tue_hours"), rs.getInt("wed_hours"), rs.getInt("thur_hours"),
+						rs.getInt("fri_hours"), rs.getString("week_ending_date"), rs.getBoolean("submitted"),
 						rs.getBoolean("approved"));
 				results.add(timesheet);
 			}
@@ -133,19 +125,12 @@ public class TimesheetDAO {
 	}
 
 	public void update(Timesheet timesheet) {
-		String sql = "update Timesheet"
-				+	"set mon_hours = ?,"
-				+ 	"tue_hours = ?,"
-				+	"wed_hours = ?,"
-				+ 	"thurs_hours = ?,"
-				+ 	"fri_hours = ?,"
-				+ 	"week_ending_date = ?,"
-				+ 	"submitted = ?,"
-				+ 	"approved = ?,"
-				+	"where timesheet_id = ?";
-				
+		String sql = "update Timesheet" + "set mon_hours = ?," + "tue_hours = ?," + "wed_hours = ?,"
+				+ "thurs_hours = ?," + "fri_hours = ?," + "week_ending_date = ?," + "submitted = ?," + "approved = ?,"
+				+ "where timesheet_id = ?";
+
 		Connection conn = getConnection();
-		
+
 		try {
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -197,5 +182,5 @@ public class TimesheetDAO {
 				throw new RuntimeException(e);
 			}
 		}
-}
 	}
+}
