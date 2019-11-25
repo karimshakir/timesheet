@@ -17,10 +17,22 @@
                         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+<<<<<<< HEAD
                         
         
         <property name="java-output-path" value="/timesheetProject/target/classes"/>
         <property name="context-root" value="timesheet"/>
+=======
+                
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+                
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-test-sources/test-annotations"/>
+                        
+        
+        <property name="java-output-path" value="/timesheetProject/target/classes"/>
+                
+        <property name="context-root" value="timesheetProject"/>
+>>>>>>> controllers
                     
     
     </wb-module>

@@ -15,12 +15,18 @@ import com.timesheetProject.beans.*;
 public class TimesheetDAO {
 	
 	public static void main(String[] args) {
+
 		Timesheet newtimesheet = new Timesheet(7,2,1,2,3,4,5,"11/20/2019",false, true);
+
 		TimesheetDAO dao = new TimesheetDAO();
 		
 //		dao.delete(4);
 		
+
 		System.out.println(dao.save(newtimesheet)); 
+
+		dao.save(newtimesheet);
+
 	}
 
 	public Connection getConnection() {
@@ -42,7 +48,7 @@ public class TimesheetDAO {
 			
 			PreparedStatement stmt = conn.prepareStatement("insert into timesheet(user_id,"
 					+ " mon_hours, tue_hours, wed_hours, thur_hours, fri_hours,"
-					+ " week_ending_date, submitted, approved) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					+ " week_ending_date, submitted, approved) values(?)",
 					new String[] { "timesheet_id" }); //key
 			stmt.setInt(1, timesheet.getUserId());
 			stmt.setInt(2, timesheet.getMonHours());
@@ -53,6 +59,7 @@ public class TimesheetDAO {
 			stmt.setString(7, timesheet.getWeekEndingDate());
 			stmt.setBoolean(8, timesheet.isSubmitted());
 			stmt.setBoolean(9, timesheet.isApproved());
+
 			stmt.executeUpdate();
 			ResultSet keys = stmt.getGeneratedKeys();
 			while (keys.next()) {
