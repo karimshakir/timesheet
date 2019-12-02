@@ -4,17 +4,28 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 		
-	<display-name>timesheetProject</display-name>
-	
+	<display-name>timesheet</display-name>    <!-- can say anything  dbl check -->
+
 	<servlet>
-		<servlet-name>front</servlet-name>
-		<servlet-class>com.timesheetProject.FrontController</servlet-class>
+		<servlet-name>front</servlet-name>  <!-- match -->
+		<servlet-class>com.timesheet.controllers.FrontController</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
+
 	<servlet-mapping>
-		<servlet-name>front</servlet-name>
+		<servlet-name>front</servlet-name><!-- match -->
 		<url-pattern>/api/*</url-pattern>
+
 	</servlet-mapping>
+
+<!-- 	<filter>
+		<filter-name>cors</filter-name>
+		<filter-class>com.timesheet.controllers.CORSFilter</filter-class>
+	</filter> -->
+
+<!-- 	<filter-mapping>
+		<filter-name>cors</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping> -->
 	
 </web-app>

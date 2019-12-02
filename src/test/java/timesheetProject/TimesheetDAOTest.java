@@ -2,7 +2,7 @@ package timesheetProject;
 
 import org.junit.Test;
 
-import com.timesheetProject.data.TimesheetDAO;
+import com.timesheet.data.TimesheetDAO;
 
 public class TimesheetDAOTest {
 

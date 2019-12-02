@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title id = title>Login Page</title>
+</head>
+
+<body id = formBody>Please enter your Username and Password</body>
+
+	        <form id = 'loginForm'>
+            <label>Username </label><input type= "text" name="userName" id = "userName"><br>
+            <label>Password </label><input type= "password" name="password" id = "password"><br>
+
+        </form>
+
+        <input id = 'logInButtonId' type= 'Submit' value = 'Login'><br>
+
+        <input id = 'timesheetButton' type= "Submit" value = "Open Timesheets"><br>
+
+        <div>
+
+            <table id = timeSheetTable>
+                    <tr> <th>Monday </th> <th>Tuesday </th> <th>Wednsday </th><th>Thursday </th><th>Friday </th><th>Saturday </th> <th>Sunnday </th> <th>Total Hours </th> <th>Status </th> <th>Week End Date </th> 
+                        <th> <input id = addTimeSheetId, type ='button' value = 'Add new Timesheet'> </th> </tr>
+            </table>
+
+        </div>
+
+    <script src="login.js"> </script>
+    <script src="https://unpkg.com/axios@0.19.0/dist/axios.min.js"></script>
+
+
+</html>

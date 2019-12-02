@@ -8,30 +8,19 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.*;
 
-import com.timesheetProject.beans.User;
-import com.timesheetProject.data.UserDAO;
+import com.timesheet.beans.User;
+import com.timesheet.data.UserDAO;
 
 public class UserDAOTest {
 
 	 public static UserDAO userdao = new UserDAO();
 	
 	@Test 
-	public void testSave() throws SQLException {
-		// 0 is overwritten by the generated key
-		User newUser = new User(5, "testUser", "user4@gmail.com", true);
+	public void testAuthintication() throws SQLException {
 		User obj = null;
-		obj = userdao.save(newUser);
-		assertEquals("testUser", obj.getName());
+		obj = userdao.authenticateUser("user1", "password");
+		assertEquals("john", obj.getF_name());
 		System.out.println(obj);
-	}
-	
-	@Test
-	public void testfindById() {
-		User expected = new User(5, "testUser", "user4@gmail.com", true);
-		User actual = userdao.findByUserId(5);
-		System.out.println(actual);
-		assertTrue(expected.equals(actual));
-		assertEquals(expected, actual);
 	}
 		
 }
